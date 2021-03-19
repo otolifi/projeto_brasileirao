@@ -1,0 +1,4 @@
+body {
+    background-image: url("{{url_for('static',filename='images/campo.png')}}");
+    background-color: #000000;
+}

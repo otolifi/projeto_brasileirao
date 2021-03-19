@@ -1,0 +1,22 @@
+{% extends "base.html"%}
+
+{% block app_content %}
+<h1>Times</h1>
+<a href="{{ url_for('times.create') }}" class="btn btn-primary">Novo time</a>
+<br>
+<br>
+<div class="container">
+	<ul class="list-unstyled row">
+		{% for time in times %}
+		 <li class="list-group-item col-md-4 borderless text-center">
+			<h4>
+			<img class="escudo-mini" src="{{ time.escudo }}"> 
+			{{ time.nome }}
+			</h4>
+             <a class="btn btn-warning" href="{{ url_for('times.update', id=time.id) }}">Editar</a>
+			 <a class="btn btn-danger" href="{{ url_for('times.delete', id=time.id) }}">Apagar</a>
+		 </li>
+		{% endfor %}
+	</ul>
+</div>
+{% endblock %} 

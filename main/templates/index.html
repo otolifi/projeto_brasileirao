@@ -1,0 +1,48 @@
+{% extends "base.html"%}
+
+{% block app_content %}
+		<div class="container">
+                <h1>Tabela de Classificação</h1>
+			<div class="table-responsive">
+				<table class="table table-striped">
+					<thead>
+						<tr>
+						<th class="text-center" scope="col">Posição</th>
+						<th class="text-center" scope="col"> </th>
+						<th class="text-left" scope="col">Time</th>
+                        <th class="text-center" scope="col">P</th>
+                        <th class="text-center" scope="col">J</th>
+						<th class="text-center" scope="col">V</th>
+						<th class="text-center" scope="col">D</th>
+						<th class="text-center" scope="col">E</th>
+						<th class="text-center" scope="col">GP</th>
+						<th class="text-center" scope="col">GC</th>
+						<th class="text-center" scope="col">SG</th>
+						<th class="text-center" scope="col"><img src="{{url_for('static', filename='images/amarelo.png')}}" style="height: 30px;"/></th>
+					    <th class="text-center" scope="col"><img src="{{url_for('static', filename='images/vermelho.png')}}" style="height: 30px;"/></th>
+						</tr>
+					</thead>
+					<tbody>
+						{% for time in times %}
+						<tr>
+							<td class="text-center" width="100" height="50">{{ loop.index }}</td>
+							<td><img width="25" class="text-center" class="escudo-mini" src="{{ time.escudo }}"></td>
+							<td class="text-left" width="300" height="50">{{ time.nome }}</td>
+                            <td class="text-center" width="300" height="50">{{ time.pontos }}</td>
+                            <td class="text-center" width="300" height="50">{{ time.vitorias + time.derrotas + time.empates }}</td>
+							<td class="text-center" width="300" height="50">{{ time.vitorias }}</td>
+							<td class="text-center" width="300" height="50">{{ time.derrotas }}</td>
+							<td class="text-center" width="300" height="50">{{ time.empates }}</td>
+							<td class="text-center" width="300" height="50">{{ time.gols_pro }}</td>
+							<td class="text-center" width="300" height="50">{{ time.gols_contra }}</td>
+							<td class="text-center" width="300" height="50">{{ time.saldo_gols }}</td>
+							<td class="text-center" width="300" height="50">{{ time.cartoes_amarelos }}</td>
+							<td class="text-center" width="300" height="50">{{ time.cartoes_vermelhos }}</td>
+						</tr>
+						{% endfor %}
+					</tbody>
+				</table>
+			</div>
+		</div>
+  </div>
+{% endblock %}

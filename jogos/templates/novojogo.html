@@ -1,0 +1,134 @@
+{% extends "base.html" %}
+{% import 'bootstrap/wtf.html' as wtf %}
+
+{% block styles %}
+	{{ super() }}
+	<style>
+	body {
+		width: 100%;
+		margin: 0;
+		padding: 0;
+	}
+	#form-jogos .row {
+		font-size: 15pt;
+		padding: 10px;
+	}
+	#form-jogos #escudos-times {
+		font-size: 28pt;
+	}
+	</style>
+{% endblock %}
+
+{% block app_content %}
+<!-- Esse bloco é um gerenciamento de Erro, não precisa mexer -->
+{% if errors %}
+	<div class="container">
+    	{%- for msg in errors %}
+    		<div class="alert alert-danger" role="alert">
+				{{ msg }}
+				{% for error in errors[msg] %}
+				{{error}}
+				{% endfor %}
+			</div>
+    	{% endfor -%}
+	</div>
+{% endif %}
+
+<!-- Faça o template a partir daqui-->
+<h1> {{ title }}</h1>
+
+<form id="form-jogos" action="" method="POST" novalidate>
+	{{ form.hidden_tag() }}
+	<div class="container">
+		<div class="row d-flex align-items-center justify-content-center">
+			<div class="col col-md-4">
+				<div class="row text-center">
+				{{ form.mandante }}
+				</div>
+				<div class="row text-center">
+					Cartões:
+					<img src="{{url_for('static', filename='images/amarelo.png')}}" style="height: 30px;"/>
+					{{ form.amarelos_mandante(size=2, class="text-center") }}
+					<img src="{{url_for('static', filename='images/vermelho.png')}}" style="height: 30px;"/>
+					{{ form.vermelhos_mandante(size=2, class="text-center") }}	
+				</div>
+			</div>
+			<div id="escudos-times" class="col col-md-4 text-center">
+				<img id="escudo-mandante" class="escudo-mini" src="#"> 
+				{{ form.gols_mandante(size=2, class="text-center") }}
+				<span>X</span>
+				{{ form.gols_visitante(size=2, class="text-center") }}
+				<img id="escudo-visitante" class="escudo-mini" src="#"> 
+			</div>
+			<div class="col col-md-4">
+				<div class="row text-center">
+				{{ form.visitante }}
+				</div>
+				<div class="row text-center">
+					Cartões:
+					<img src="{{url_for('static', filename='images/amarelo.png')}}" style="height: 30px;"/>
+					{{ form.amarelos_visitante(size=2, class="text-center") }}
+					<img src="{{url_for('static', filename='images/vermelho.png')}}" style="height: 30px;"/>
+					{{ form.vermelhos_visitante(size=2, class="text-center") }}
+				</div>
+			</div>	
+		</div>
+		<div class="row">
+			<div class="col col-md-4 text-center">
+				{{ form.rodada.label }} {{ form.rodada(size=2, class="text-center") }}
+			</div>
+			<div class="col col-md-4 text-center">
+					{{ form.data.label }} {{ form.data(class="text-center") }}
+			</div>
+			<div class="col col-md-4 text-center">
+					{% if title=='Novo Jogo' %}
+					{{ wtf.form_field(form.enviar, class="btn btn-success", button_map={'submit': 'primary'}) }}
+					{% else %}
+					{{ wtf.form_field(form.atualizar, class="btn btn-success", button_map={'submit': 'primary'}) }}
+					<a class="btn btn-danger" href="{{ url_for('jogos.delete', id=jogo.id) }}">Apagar</a>
+					{% endif %}
+			</div>
+		</div>
+	</div>
+</form>
+
+{% endblock %}
+
+
+
+{% block scripts %}
+    {{ super() }}
+    <script>
+		let escudos = {{escudos|tojson}}
+			$(document).ready(() => {
+				let time = $("#mandante option:selected").text();
+				escudos.forEach(element => {
+					if (time == element[0]) {
+						$('#escudo-mandante').attr('src', element[1])
+					}
+				})
+				time = $("#visitante option:selected").text();
+				escudos.forEach(element => {
+					if (time == element[0]) {
+						$('#escudo-visitante').attr('src', element[1])
+					}
+				})
+			})
+			$('#mandante').change(() => {
+				let time = $("#mandante option:selected").text();
+				escudos.forEach(element => {
+					if (time == element[0]) {
+						$('#escudo-mandante').attr('src', element[1])
+					}
+				})
+			})
+			$('#visitante').change(() => {
+				let time = $("#visitante option:selected").text();
+				escudos.forEach(element => {
+					if (time == element[0]) {
+						$('#escudo-visitante').attr('src', element[1])
+					}
+				})
+			})
+		</script>
+{% endblock %}

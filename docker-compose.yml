@@ -1,0 +1,12 @@
+version: '3.2'
+services:
+    brasileirao:
+        working_dir: /brasileirao
+        build: .
+        volumes:
+            - .:/brasileirao
+        ports:
+            - "5000:5000"
+        expose:
+            - "5000"
+        command: flask run -h 0.0.0.0 -p 5000

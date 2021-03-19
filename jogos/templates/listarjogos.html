@@ -1,0 +1,53 @@
+{% extends "base.html"%}
+{% import 'bootstrap/wtf.html' as wtf %}
+
+{% block styles %}
+	{{ super() }}
+	<style>
+	body {
+		width: 100%;
+		margin: 0;
+		padding: 0;
+	}
+    a{
+		color: black;
+	}
+    a:hover, a:focus {
+    text-decoration: none;
+}
+	</style>
+{% endblock %}
+{% block app_content %}
+
+<h1>Jogos</h1>
+<a href="{{url_for('jogos.create')}}" class="btn btn-primary">Novo jogo</a>
+<br>
+<br>
+{% for rodada in jogos %}
+<h1 class="center"><a data-toggle="collapse" href="#collapseJogo{{ rodada }}">
+    Rodada {{ rodada }}
+  </a></h1>
+    <div class="container">
+        <ul class="list-unstyled row collapse" id="collapseJogo{{ rodada }}">
+        {% for jogo in jogos[rodada] %}
+
+        <a href="{{ url_for('jogos.update', id=jogo.id)}}">
+            <div>
+            <li class="list-group-item col-md-4 borderless text-center">
+                <img class="escudo-mini" src="{{jogo.mandante.escudo}}">
+                    {{ jogo.mandante.nome }}
+                    {{ jogo.gols_mandante }} x
+                    {{ jogo.gols_visitante}}
+                    {{ jogo.visitante.nome}}
+                <img class="escudo-mini" src="{{jogo.visitante.escudo}}">
+                
+            </li>
+            </div>
+        </a>
+
+        {% endfor %}
+        </ul>
+    </div>
+
+{% endfor %}
+{% endblock %}
